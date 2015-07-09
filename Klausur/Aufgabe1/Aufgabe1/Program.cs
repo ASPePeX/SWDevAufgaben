@@ -1,45 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aufgabe1
 {
-    class Vector<T>
+    internal class Vector3<T>
     {
         public T x, y, z;
 
-        public static Vector<T> Add(Vector<T> v1, Vector<T> v2)
+        public delegate T OperationaufT(T a, T b);
+
+        public static OperationaufT FieldAdd;
+        public static OperationaufT FieldMul;
+
+        public static Vector3<T> Add(Vector3<T> v1, Vector3<T> v2)
         {
-            return new Vector<T>()
+            return new Vector3<T>
             {
-                x = v1.x + v2.x,
-                y = v1.y + v2.y,
-                z = v1.z + v2.z
+                x = FieldAdd(v1.x, v2.x),
+                y = FieldAdd(v1.y, v2.y),
+                z = FieldAdd(v1.z, v2.z)
             };
         }
 
-        public static Vector<T> Mul(double scalar, Vector<T> v)
+        public static Vector3<T> Mul(T scalar, Vector3<T> v)
         {
-            return new Vector<T>()
+            return new Vector3<T>
             {
-                x = scalar*v.x,
-                y = scalar*v.y,
-                z = scalar*v.z
+                x = FieldMul(scalar, v.x),
+                y = FieldMul(scalar, v.y),
+                z = FieldMul(scalar, v.z)
             };
         }
     }
 
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static double DoubleMul(double a, double b)
         {
-            Vector<double> v1 = new Vector<double>() {x = 1.0, y = 2.0, z = 3.0};
-            Vector<double> v2 = new Vector<double>() {x = 4.0, y = 5.0, z = 6.0};
+            return a*b;
+        }
 
-            Vector<double> v3 = Vector<double>.Add(v1, v2);
-            Vector<double> v4 = Vector<double>.Mul(2.0, v1);
+        private static double DoubleAdd(double a, double b)
+        {
+            return a + b;
+        }
+
+        private static void Main(string[] args)
+        {
+            Vector3<double>.FieldAdd = DoubleAdd;
+            Vector3<double>.FieldMul = DoubleMul;
+
+            var v1 = new Vector3<double> {x = 1.0, y = 2.0, z = 3.0};
+            var v2 = new Vector3<double> {x = 4.0, y = 5.0, z = 6.0};
+
+            var v3 = Vector3<double>.Add(v1, v2);
+            var v4 = Vector3<double>.Mul(2.0, v1);
+
 
             Console.ReadKey();
         }
