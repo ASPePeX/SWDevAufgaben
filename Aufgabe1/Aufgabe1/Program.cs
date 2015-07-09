@@ -18,7 +18,7 @@ namespace Aufgabe1
             public int
             b;
         }
-        static void TakeFoo(Foo f)
+        static void TakeFoo(ref Foo f)
         {
             f.a = 12;
         }
@@ -31,7 +31,7 @@ namespace Aufgabe1
         {
             var foo = new Foo() {a = 3};
             var bar = new Bar() {b = 3};
-            TakeFoo(foo);
+            TakeFoo(ref foo);
             TakeBar(bar);
 
             Console.WriteLine(foo.a);
