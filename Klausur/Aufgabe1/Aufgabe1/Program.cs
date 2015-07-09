@@ -46,8 +46,12 @@ namespace Aufgabe1
 
         private static void Main(string[] args)
         {
-            Vector3<double>.FieldAdd = DoubleAdd;
-            Vector3<double>.FieldMul = DoubleMul;
+            Vector3<double>.FieldAdd = delegate(double a, double b)
+            {
+                return a + b;
+            };
+
+            Vector3<double>.FieldMul = (a, b) => a*b;
 
             var v1 = new Vector3<double> {x = 1.0, y = 2.0, z = 3.0};
             var v2 = new Vector3<double> {x = 4.0, y = 5.0, z = 6.0};
